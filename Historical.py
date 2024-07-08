@@ -16,7 +16,7 @@ tab1, tab2 = st.tabs(["📜Historical", "✈️Detection"])
 
 with tab1:
     # Load data
-    data = pd.read_csv("dummy_data.csv")
+    data = pd.read_csv("data/dummy_data.csv")
 
     st.markdown(
     """
