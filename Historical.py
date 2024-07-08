@@ -46,7 +46,7 @@ with tab1:
     st.divider()
             
     # Upload all data thus far
-    combined_leaks = pd.read_csv("data/combined_leaks_dummy.csv")
+    combined_leaks = pd.read_csv("data/combined_leaks_dummy2.csv")
     combined_leaks["Flight"] = combined_leaks["Flight"].round()
 
     # Select a flight to display
