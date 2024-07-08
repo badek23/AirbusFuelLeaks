@@ -5,7 +5,6 @@ import numpy as np
 
 st.set_page_config(page_title="Airbus Fuel Leakages✈️")
 st.title('Fuel Leakages Detection')
-st.header("XXX")
 
 st.markdown(
     """
@@ -25,6 +24,8 @@ with tab1:
     """
     )  
 
+    st.divider()
+            
     # Plot number of leaks by year of occurrence
     fig = px.bar(data, 
             x='year', 
@@ -42,6 +43,39 @@ with tab1:
             )
     st.plotly_chart(fig)
 
+    st.divider()
+            
+    # Upload all data thus far
+    combined_leaks = pd.read_csv("data/combined_leaks_updated.csv")
+    combined_leaks["Flight"] = combined_leaks["Flight"].round()
+
+    # Select a flight to display
+    flight_id = st.selectbox('Select Flight ID', combined_leaks['Flight'].unique(), index=None)
+
+    if flight_id is not None:
+        # Filter the data for the selected flight
+        flight_data = combined_leaks[combined_leaks['Flight'] == flight_id]
+
+        # Determine if there is a leakage
+        leak_detected = flight_data['FAKE_LEAKAGE'].notnull().any()
+
+        # Display the sign at the top of the page
+        if leak_detected:
+            st.markdown("<h1 style='text-align: center; color: red;'>Leakage Detected</h1>", unsafe_allow_html=True)
+        else:
+            st.markdown("<h1 style='text-align: center; color: green;'>OK</h1>", unsafe_allow_html=True)
+
+        # Plot the trend of fuel usage with simulated leakage
+        fig1 = px.line(flight_data, x='UTC_TIME', y=['VALUE_FOB', 'FAKE_LEAKAGE'],
+                    labels={'value': 'Fuel (kg)', 'UTC_TIME': 'Time'},
+                    title=f'Trend of Fuel Usage with Simulated Leakage for Flight {flight_id}')
+        fig1.update_layout(legend_title_text='Fuel Metrics')
+        st.plotly_chart(fig1)
+
+        # Display the data table
+        st.write('Data Table')
+        st.write(flight_data)
+
 
 
 with tab2:
@@ -50,18 +84,17 @@ with tab2:
     This page will be most helpful for maintenance crews and in-flight crew members who want to understand what's happening for a particular flight.
     """
     )
-    combined_leaks = st.file_uploader("Upload a single flight's data here.")
 
+    st.divider()
 
-    if combined_leaks:
-        # Select a flight to display
-        flight_id = st.selectbox('Select Flight ID', combined_leaks['Flight'].unique())
+    uploaded = st.file_uploader("Upload a single flight's data here.")
 
-        # Filter the data for the selected flight
-        flight_data = combined_leaks[combined_leaks['Flight'] == flight_id]
+    if uploaded is not None:
+
+        uploaded = pd.read_csv(uploaded)
 
         # Determine if there is a leakage
-        leak_detected = flight_data['FAKE_LEAKAGE'].notnull().any()
+        leak_detected = uploaded['FAKE_LEAKAGE'].notnull().any()
 
         # Display the sign at the top of the page
         if leak_detected:
