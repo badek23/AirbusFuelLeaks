@@ -12,7 +12,7 @@ st.markdown(
 )
 
 # Load the dataset
-combined_leaks = pd.read_csv('combined_leaks.csv')
+combined_leaks = pd.read_csv('data/combined_leaks.csv')
 
 # Function to determine if a flight has a leakage
 def has_leakage(flight_data):
@@ -45,7 +45,7 @@ if page == "Summary Page":
         color = 'red' if val == 'Leakage Detected' else 'green'
         return f'background-color: {color}'
     
-    st.dataframe(summary_df.style.applymap(color_leakage, subset=['Leakage Status']))
+    st.dataframe(summary_df.style.applymap(color_leakage, subset=['Leakage Status']), width=400)
 
 elif page == "Flight Details":
     st.markdown(
