@@ -1,2 +1,11 @@
 original_data/
 Airbus.ipynb
+Data/msn_02_fuel_leak_signals_preprocessed.csv
+Data/msn_10_fuel_leak_signals_preprocessed.csv
+Data/msn_11_fuel_leak_signals_preprocessed.csv
+Data/msn_12_fuel_leak_signals_preprocessed.csv
+Data/msn_14_fuel_leak_signals_preprocessed.csv
+Data/msn_29_fuel_leak_signals_preprocessed.csv
+Data/msn_37_fuel_leak_signals_preprocessed.csv
+Data/msn_53_fuel_leak_signals_preprocessed.csv
+combined_leaks.csv
